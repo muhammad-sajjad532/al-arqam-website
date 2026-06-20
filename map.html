@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seerah Map | Sacred Locations of the Secret Da'wah — Al-Arqam</title>
+<meta name="description" content="An interactive map of Makkah marking the key locations of the secret Da'wah era — Cave Hira, Dar al-Arqam, the Ka'bah, and Mount Safa.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<style>
+  /* ---- map page extras ---- */
+  #map {
+    width: 100%;
+    height: 70vh;
+    min-height: 420px;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--outline-variant);
+    box-shadow: 0 8px 32px rgba(0,53,39,0.10);
+    z-index: 1;
+  }
+  @media (max-width: 768px) {
+    #map { height: 50vh; min-height: 320px; }
+  }
+
+  .map-wrapper {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-top: 4px solid var(--tertiary-container);
+    padding: 28px;
+    border-radius: var(--r-lg);
+    box-shadow: 0 8px 32px rgba(0,53,39,0.07);
+    margin-bottom: 48px;
+  }
+
+  /* Custom Leaflet popup styling */
+  .leaflet-popup-content-wrapper {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--r-md) !important;
+    box-shadow: 0 8px 28px rgba(0,53,39,0.18) !important;
+    padding: 0;
+  }
+  .leaflet-popup-content {
+    margin: 0 !important;
+    width: 260px !important;
+  }
+  .leaflet-popup-tip {
+    background: var(--surface-container-lowest);
+  }
+  .leaflet-popup-close-button {
+    color: var(--on-surface-variant) !important;
+    font-size: 18px !important;
+    padding: 6px 10px !important;
+  }
+  .popup-inner {
+    padding: 20px 20px 16px;
+  }
+  .popup-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .popup-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .popup-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--on-surface-variant);
+    margin-bottom: 12px;
+  }
+  .popup-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--on-tertiary-container);
+    background: var(--tertiary-container);
+    padding: 7px 14px;
+    border-radius: var(--r-sm);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .popup-link:hover { background: var(--tertiary); color: #fff; }
+
+  /* Custom marker pins */
+  .map-pin {
+    width: 34px;
+    height: 34px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255,255,255,0.7);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  }
+  .map-pin-inner {
+    transform: rotate(45deg);
+    font-size: 14px;
+    line-height: 1;
+  }
+  .pin-primary   { background: var(--primary); }
+  .pin-gold      { background: var(--tertiary); }
+  .pin-secondary { background: var(--secondary); }
+  .pin-muted     { background: var(--on-surface-variant); }
+
+  .location-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--on-surface-variant);
+    font-weight: 600;
+  }
+  .legend-dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .note-box {
+    background: rgba(204,167,47,0.08);
+    border: 1px solid var(--tertiary-container);
+    border-left: 3px solid var(--tertiary-container);
+    padding: 14px 18px;
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    font-size: 14px;
+    color: var(--on-surface-variant);
+    margin-top: 28px;
+  }
+  .note-box strong { color: var(--primary); }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="navbar-inner container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><span>ع</span></span>
+      <div class="brand-text">
+        <span class="brand-name">Al-Arqam</span>
+        <span class="brand-tagline">Secret Dawah 610–613 CE</span>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="pioneers.html">Pioneers</a>
+      <a href="persecution.html">Trials &amp; Sacrifice</a>
+      <a href="dar-al-arqam.html">Dar al-Arqam</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="map.html">Map</a>
+      <a href="duas.html">Du'as</a>
+      <a href="sources.html">Sources</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="page-header">
+    <div class="pattern-overlay"></div>
+    <div class="container" style="position:relative;">
+      <span class="eyebrow eyebrow--inverse">Sacred Geography</span>
+      <h1 class="headline-lg">The Seerah Map — Makkah, 610–613 CE</h1>
+      <p>The key locations where the secret Da'wah took root — from the cave of the first revelation to the house of the first school.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="two-col fade-up" style="margin-bottom:48px;align-items:start;">
+        <div>
+          <span class="eyebrow">Walking the Sacred Ground</span>
+          <h2 class="headline-md" style="margin-top:6px;">Four Locations, One Era</h2>
+          <p class="body-md" style="margin-top:12px;">Every location below was part of a single, unbroken story. Within a few miles of each other in Makkah, the first revelation was received, the first believers gathered in secret, and finally — three years later — the call went public. Click any pin on the map to explore what happened there.</p>
+          <div class="location-legend">
+            <div class="legend-item"><span class="legend-dot" style="background:var(--primary)"></span>The Ka'bah — city centre reference</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#2d8a4e"></span>Cave Hira — first revelation</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--tertiary)"></span>Dar al-Arqam — first school</div>
+            <div class="legend-item"><span class="legend-dot" style="background:var(--on-surface-variant)"></span>Mount Safa — the next chapter</div>
+          </div>
+        </div>
+        <div class="card" style="padding:20px;">
+          <span class="card-eyebrow">About the Map</span>
+          <p style="font-size:14px;color:var(--on-surface-variant);line-height:1.65;margin-top:6px;">This map uses <strong>real GPS coordinates</strong> for each historical location. OpenStreetMap provides the base layer. The modern city of Makkah has grown significantly around these ancient sites — many are now incorporated within or near the Masjid al-Haram complex.</p>
+        </div>
+      </div>
+
+      <div class="map-wrapper fade-up">
+        <div id="map" role="application" aria-label="Interactive map of sacred Makkah locations from the secret Da'wah era"></div>
+        <div class="note-box">
+          <strong>Note on Mount Safa:</strong> The public call at Safa in 613 CE marks the <em>end</em> of the secret era this archive documents — it is shown here as a contextual reference point, not as part of the secret Da'wah itself.
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-head fade-up" style="text-align:left;max-width:none;margin-bottom:32px;">
+        <span class="eyebrow">Location Summaries</span>
+        <h2 class="headline-md">The Four Sites</h2>
+      </div>
+
+      <div class="grid grid-2 fade-up">
+        <div class="card card--featured">
+          <div class="icon-circle" style="background:var(--primary);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <span class="card-eyebrow">City Centre Landmark</span>
+          <h3>The Ka'bah</h3>
+          <p>The sacred cube at the heart of Masjid al-Haram and the geographical and spiritual centre of Makkah. The Prophet ﷺ was born into a society organised around it. During the secret years, it was the very power base of Quraysh — whose authority he was quietly, carefully working around.</p>
+        </div>
+
+        <div class="card card--featured">
+          <div class="icon-circle" style="background:#2d8a4e;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.58 3.4a2 2 0 0 1 1.99-2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.4a16 16 0 0 0 6.69 6.69l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <span class="card-eyebrow">610 CE · First Revelation</span>
+          <h3>Cave Hira, Jabal an-Nur</h3>
+          <p>About 3 km north-east of the Ka'bah, on Jabal an-Nur (Mountain of Light), sits the narrow cave where the Prophet ﷺ was in spiritual retreat when the Angel Jibril first appeared with the command: <em>"Read!"</em> This is where the secret era began.</p>
+          <a href="timeline.html" class="btn-ghost btn" style="margin-top:12px;padding:0;">Read the full story →</a>
+        </div>
+
+        <div class="card card--featured">
+          <div class="icon-circle" style="background:var(--tertiary);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <span class="card-eyebrow">612 CE · First School</span>
+          <h3>Dar al-Arqam, Foot of Mount Safa</h3>
+          <p>The house of Al-Arqam ibn Abi al-Arqam, at the foot of Mount Safa. For roughly a year, the Prophet ﷺ taught Qur'an here in secret — the first madrasah in Islamic history. Its strategic location near the Ka'bah yet in an inconspicuous clan's house was deliberate.</p>
+          <a href="dar-al-arqam.html" class="btn-ghost btn" style="margin-top:12px;padding:0;">Read the full story →</a>
+        </div>
+
+        <div class="card">
+          <div class="icon-circle" style="background:var(--on-surface-variant);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="card-eyebrow">613 CE · The Next Chapter</span>
+          <h3>Mount Safa</h3>
+          <p>Just steps from Dar al-Arqam, the rocky hill of Safa is where — after three years of quiet preparation — the Prophet ﷺ climbed and called out to all of Makkah by clan name, beginning the public phase of Islam. This location marks the <em>end</em> of the era this archive covers.</p>
+          <a href="timeline.html#safa" class="btn-ghost btn" style="margin-top:12px;padding:0;">See in the timeline →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-pattern"></div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name">Al-Arqam</span>
+      <span class="brand-tagline">الأرقم · دار العلم</span>
+      <p>An educational archive of the secret Da'wah era (610–613 CE) — the silent years before Islam's public call at Mount Safa.</p>
+      <div class="footer-quote">
+        <p>"Invite to the way of your Lord with wisdom and fair preaching."</p>
+        <cite>— Qur'an 16:125</cite>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <a href="timeline.html">Timeline</a>
+      <a href="pioneers.html">Pioneers of Faith</a>
+      <a href="persecution.html">Trials &amp; Sacrifice</a>
+      <a href="dar-al-arqam.html">Dar al-Arqam</a>
+    </div>
+    <div class="footer-col">
+      <h5>Learn</h5>
+      <a href="lessons.html">Wisdom &amp; Lessons</a>
+      <a href="map.html">Seerah Map</a>
+      <a href="duas.html">Du'as</a>
+      <a href="sources.html">Historical Sources</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 610–613 CE · The Secret Dawah Archive · Refined with Adab</span>
+    <span>Derived from Sahih Bukhari, Ibn Hisham &amp; classical Seerah sources</span>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLaA=" crossorigin=""></script>
+<script src="js/main.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // GPS coordinates for Makkah landmarks
+  var locations = [
+    {
+      id: 'kaaba',
+      lat: 21.4225,
+      lng: 39.8262,
+      label: 'The Sacred Mosque',
+      eyebrow: 'City Centre Landmark',
+      title: 'The Ka\'bah',
+      desc: 'The sacred cube at the heart of Makkah — the geographical and spiritual reference point for the entire era. The Prophet ﷺ was born into a city organised around it.',
+      link: 'timeline.html',
+      linkText: 'Read the Timeline',
+      pinClass: 'pin-primary',
+      icon: '⬛',
+      color: '#003527'
+    },
+    {
+      id: 'hira',
+      lat: 21.4577,
+      lng: 39.8597,
+      label: 'Jabal an-Nur',
+      eyebrow: '610 CE · First Revelation',
+      title: 'Cave Hira, Jabal an-Nur',
+      desc: 'Here the Angel Jibril first appeared to the Prophet ﷺ with the command "Read!" — the moment that began the secret Da\'wah era and changed human history.',
+      link: 'timeline.html',
+      linkText: 'Read the Timeline →',
+      pinClass: 'pin-secondary',
+      icon: '🕯️',
+      color: '#2d8a4e'
+    },
+    {
+      id: 'arqam',
+      lat: 21.4237,
+      lng: 39.8256,
+      label: 'Foot of Mount Safa',
+      eyebrow: '612 CE · Islam\'s First School',
+      title: 'Dar al-Arqam',
+      desc: 'The house of Al-Arqam ibn Abi al-Arqam — a secret gathering place where the Prophet ﷺ taught Qur\'an and formed the first Muslim community, away from Quraysh\'s eyes.',
+      link: 'dar-al-arqam.html',
+      linkText: 'Read the full story →',
+      pinClass: 'pin-gold',
+      icon: '🏠',
+      color: '#735c00'
+    },
+    {
+      id: 'safa',
+      lat: 21.4243,
+      lng: 39.8263,
+      label: 'Mount Safa',
+      eyebrow: '613 CE · The Next Chapter',
+      title: 'Mount Safa',
+      desc: 'From this rocky hill, the Prophet ﷺ made the first public proclamation of Islam — marking the end of the secret era. This is the "next chapter" beyond this archive.',
+      link: 'timeline.html',
+      linkText: 'See in the Timeline →',
+      pinClass: 'pin-muted',
+      icon: '📢',
+      color: '#404944'
+    }
+  ];
+
+  function makeIcon(loc) {
+    var html = '<div class="map-pin ' + loc.pinClass + '" style="background:' + loc.color + '">'
+      + '<span class="map-pin-inner">' + loc.icon + '</span>'
+      + '</div>';
+    return L.divIcon({
+      html: html,
+      className: '',
+      iconSize: [34, 34],
+      iconAnchor: [17, 34],
+      popupAnchor: [0, -36]
+    });
+  }
+
+  function makePopup(loc) {
+    return '<div class="popup-inner">'
+      + '<span class="popup-eyebrow">' + loc.eyebrow + '</span>'
+      + '<div class="popup-title">' + loc.title + '</div>'
+      + '<p class="popup-desc">' + loc.desc + '</p>'
+      + '<a class="popup-link" href="' + loc.link + '">' + loc.linkText + '</a>'
+      + '</div>';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var mapEl = document.getElementById('map');
+    if (!mapEl) return;
+
+    var map = L.map('map', {
+      center: [21.437, 39.838],
+      zoom: 13,
+      scrollWheelZoom: false,
+      zoomControl: true
+    });
+
+    // Enable scroll wheel zoom on click/focus
+    map.on('click', function () { map.scrollWheelZoom.enable(); });
+    map.on('blur', function () { map.scrollWheelZoom.disable(); });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(map);
+
+    locations.forEach(function (loc) {
+      var marker = L.marker([loc.lat, loc.lng], { icon: makeIcon(loc), title: loc.title });
+      marker.addTo(map);
+      marker.bindPopup(makePopup(loc), { maxWidth: 300, className: 'arqam-popup' });
+    });
+  });
+}());
+</script>
+</body>
+</html>

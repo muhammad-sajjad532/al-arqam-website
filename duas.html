@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Du'as | Supplications of Patience &amp; Steadfastness — Al-Arqam</title>
+<meta name="description" content="Authentic prophetic supplications reflecting the spirit of patience, steadfastness, and trust in Allah — the enduring lessons of the secret Da'wah era.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ---- Arabic font ---- */
+  .arabic-text {
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Traditional Arabic', serif;
+    font-size: clamp(22px, 4vw, 30px);
+    line-height: 1.9;
+    direction: rtl;
+    text-align: right;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  /* ---- dua card ---- */
+  .dua-card {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    border-top: 4px solid var(--tertiary-container);
+    padding: 36px;
+    margin-bottom: 32px;
+    transition: box-shadow 0.3s, border-color 0.3s;
+  }
+  .dua-card:hover {
+    border-color: var(--tertiary-container);
+    box-shadow: 0 10px 32px rgba(0,53,39,0.08);
+  }
+  .dua-theme {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+    background: rgba(204,167,47,0.10);
+    border: 1px solid rgba(204,167,47,0.25);
+    padding: 5px 12px;
+    border-radius: var(--r-full);
+    margin-bottom: 20px;
+  }
+  .dua-title {
+    font-family: var(--font-display);
+    font-size: clamp(19px, 2.5vw, 23px);
+    color: var(--primary);
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+  .dua-arabic-wrapper {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%);
+    border-radius: var(--r-md);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dua-arabic-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='%23cca72f' stroke-width='1'%3E%3Cpath d='M42 0 L84 42 L42 84 L0 42 Z'/%3E%3Ccircle cx='42' cy='42' r='20'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .arabic-text-inverted {
+    font-family: 'Amiri', 'Noto Naskh Arabic', 'Traditional Arabic', serif;
+    font-size: clamp(22px, 4vw, 30px);
+    line-height: 2;
+    direction: rtl;
+    text-align: right;
+    color: var(--tertiary-fixed);
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+  .dua-transliteration {
+    font-style: italic;
+    font-size: 15px;
+    color: var(--on-surface-variant);
+    line-height: 1.7;
+    border-left: 3px solid var(--outline-variant);
+    padding-left: 16px;
+    margin-bottom: 20px;
+  }
+  .dua-translation {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--on-surface);
+    margin-bottom: 20px;
+    padding: 18px 20px;
+    background: var(--surface-container-low);
+    border-radius: var(--r-sm);
+    position: relative;
+  }
+  .dua-translation::before {
+    content: '"';
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    font-family: var(--font-display);
+    font-size: 42px;
+    color: var(--tertiary-container);
+    line-height: 1;
+    opacity: 0.7;
+  }
+  .dua-translation p {
+    padding-left: 20px;
+    font-family: var(--font-display);
+    font-style: italic;
+  }
+  .dua-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+    border-top: 1px solid var(--outline-variant);
+    padding-top: 20px;
+    margin-top: 4px;
+  }
+  .dua-source {
+    flex: 1;
+    min-width: 200px;
+  }
+  .dua-source-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tertiary);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .dua-source-text {
+    font-size: 13.5px;
+    color: var(--on-surface-variant);
+    line-height: 1.5;
+  }
+  .dua-connection {
+    flex: 2;
+    min-width: 220px;
+    background: rgba(0,53,39,0.04);
+    border: 1px solid rgba(0,53,39,0.1);
+    padding: 12px 16px;
+    border-radius: var(--r-sm);
+  }
+  .dua-connection-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .dua-connection p {
+    font-size: 13.5px;
+    color: var(--on-surface-variant);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .disclaimer-box {
+    background: var(--surface-container);
+    border: 1px solid var(--outline-variant);
+    border-left: 4px solid var(--tertiary-container);
+    padding: 20px 24px;
+    margin-bottom: 48px;
+    border-radius: 0 var(--r-sm) var(--r-sm) 0;
+    font-size: 14.5px;
+    color: var(--on-surface-variant);
+    line-height: 1.7;
+  }
+  .disclaimer-box strong { color: var(--primary); }
+
+  @media (max-width: 640px) {
+    .dua-card { padding: 24px 20px; }
+    .dua-arabic-wrapper { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="navbar">
+  <div class="navbar-inner container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"><span>ع</span></span>
+      <div class="brand-text">
+        <span class="brand-name">Al-Arqam</span>
+        <span class="brand-tagline">Secret Dawah 610–613 CE</span>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="timeline.html">Timeline</a>
+      <a href="pioneers.html">Pioneers</a>
+      <a href="persecution.html">Trials &amp; Sacrifice</a>
+      <a href="dar-al-arqam.html">Dar al-Arqam</a>
+      <a href="lessons.html">Lessons</a>
+      <a href="map.html">Map</a>
+      <a href="duas.html">Du'as</a>
+      <a href="sources.html">Sources</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="page-header">
+    <div class="pattern-overlay"></div>
+    <div class="container" style="position:relative;">
+      <span class="eyebrow eyebrow--inverse">Supplications</span>
+      <h1 class="headline-lg">Du'as of Patience &amp; Steadfastness</h1>
+      <p>Authentic prophetic supplications that reflect the spirit of this era — bearing hardship with trust, holding faith under pressure, and seeking ease from the One who grants it.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="max-width:860px;">
+
+      <div class="disclaimer-box fade-up">
+        <strong>A note on dating:</strong> Most authentic prophetic du'as are not specifically dated to 610–613 CE in the classical sources — the Seerah does not record a running log of which supplication was said on which day. This page does <em>not</em> claim each du'a was literally said during these exact three years. Rather, these are authentic supplications from verified sources whose themes — patience in hardship, steadfastness of faith, trust in Allah's relief, and comfort for the persecuted — are precisely the spirit this era embodies. The one exception is the narration of the Prophet ﷺ comforting the family of Yasir, which <em>is</em> specifically tied to this period in the sources.
+      </div>
+
+      <!-- DUA 1: Patience in hardship -->
+      <div class="dua-card fade-up">
+        <span class="dua-theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Patience in Hardship
+        </span>
+        <h2 class="dua-title">The Du'a for Patience (Sabr)</h2>
+        <div class="dua-arabic-wrapper">
+          <span class="arabic-text-inverted">اللَّهُمَّ إِنِّي أَسْأَلُكَ الصَّبْرَ عِنْدَ الْبَلَاءِ، وَالثَّبَاتَ عِنْدَ اللِّقَاءِ، وَالشُّكْرَ عِنْدَ الرَّخَاءِ</span>
+        </div>
+        <p class="dua-transliteration">Allāhumma innī as'aluka al-ṣabra 'inda al-balā', wa al-thabāta 'inda al-liqā', wa al-shukra 'inda al-rakhā'</p>
+        <div class="dua-translation">
+          <p>"O Allah, I ask You for patience in times of trial, steadfastness at the moment of encounter, and gratitude in times of ease."</p>
+        </div>
+        <div class="dua-meta">
+          <div class="dua-source">
+            <span class="dua-source-label">Source</span>
+            <span class="dua-source-text">Recorded by al-Nasa'i in <em>Amal al-Yawm wa al-Layla</em> and al-Tabarani. Authenticated by al-Albani.</span>
+          </div>
+          <div class="dua-connection">
+            <span class="dua-connection-label">Connection to This Era</span>
+            <p>The three qualities asked for here — patience under trial, steadfastness in confrontation, gratitude in ease — are exactly what the first Muslim community had to cultivate across the secret years. Bilal, Sumayyah, and Yasir lived this du'a before it was formally recorded.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUA 2: Steadfastness of heart -->
+      <div class="dua-card fade-up">
+        <span class="dua-theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Steadfastness of Faith
+        </span>
+        <h2 class="dua-title">Yā Muqallib al-Qulūb — O Turner of Hearts</h2>
+        <div class="dua-arabic-wrapper">
+          <span class="arabic-text-inverted">يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ</span>
+        </div>
+        <p class="dua-transliteration">Yā Muqallib al-qulūb, thabbit qalbī 'alā dīnik</p>
+        <div class="dua-translation">
+          <p>"O Turner of hearts, make my heart firm upon Your religion."</p>
+        </div>
+        <div class="dua-meta">
+          <div class="dua-source">
+            <span class="dua-source-label">Source</span>
+            <span class="dua-source-text">Jami' al-Tirmidhi, Hadith 3522. Narrated by Anas ibn Malik (RA). Graded Hasan.</span>
+          </div>
+          <div class="dua-connection">
+            <span class="dua-connection-label">Connection to This Era</span>
+            <p>The Prophet ﷺ recited this supplication frequently, to the point that Umm Salamah (RA) asked him about it. In a community where conversion meant exile from tribe and family, holding firm to faith was a daily, active act — this du'a names that struggle directly.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUA 3: Ease after difficulty -->
+      <div class="dua-card fade-up">
+        <span class="dua-theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 2v20M2 12h20"/></svg>
+          Ease After Difficulty
+        </span>
+        <h2 class="dua-title">The Du'a for Relief from Distress</h2>
+        <div class="dua-arabic-wrapper">
+          <span class="arabic-text-inverted">اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا</span>
+        </div>
+        <p class="dua-transliteration">Allāhumma lā sahla illā mā ja'altahu sahlā, wa anta taj'alu al-ḥazna idhā shi'ta sahlā</p>
+        <div class="dua-translation">
+          <p>"O Allah, there is no ease except in what You make easy, and You, if You will, make grief and hardship easy."</p>
+        </div>
+        <div class="dua-meta">
+          <div class="dua-source">
+            <span class="dua-source-label">Source</span>
+            <span class="dua-source-text">Ibn Hibban in his Sahih (no. 2427) and Ibn al-Sunni in <em>Amal al-Yawm wa al-Layla</em>. Authenticated by Ibn Hibban and al-Albani.</span>
+          </div>
+          <div class="dua-connection">
+            <span class="dua-connection-label">Connection to This Era</span>
+            <p>During the three secret years, the believers had no worldly power to make their path easy — only divine facilitation. This du'a captures precisely that reliance: not asking for the hardship to disappear, but for Allah to transform it. The Qur'anic reminder "with every hardship comes ease" (94:5–6) echoes through every line of this era's story.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUA 4: Protection from trials -->
+      <div class="dua-card fade-up">
+        <span class="dua-theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Protection from Fitnah
+        </span>
+        <h2 class="dua-title">Seeking Refuge from the Trial of Faith</h2>
+        <div class="dua-arabic-wrapper">
+          <span class="arabic-text-inverted">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفِتَنِ مَا ظَهَرَ مِنْهَا وَمَا بَطَنَ</span>
+        </div>
+        <p class="dua-transliteration">Allāhumma innī a'ūdhu bika min al-fitan, mā ẓahara minhā wa mā baṭan</p>
+        <div class="dua-translation">
+          <p>"O Allah, I seek refuge in You from trials — those that are apparent and those that are hidden."</p>
+        </div>
+        <div class="dua-meta">
+          <div class="dua-source">
+            <span class="dua-source-label">Source</span>
+            <span class="dua-source-text">Sahih Muslim, Book of Remembrance and Supplication (Kitab al-Dhikr), narrated from the du'as the Prophet ﷺ taught for seeking refuge from trials. Confirmed authentic.</span>
+          </div>
+          <div class="dua-connection">
+            <span class="dua-connection-label">Connection to This Era</span>
+            <p>The fitna of the secret years was both visible (torture of Bilal, the martyrdom of Sumayyah) and hidden (the constant pressure to recant faith quietly, or to slow the growth of the community out of fear). This du'a addresses both dimensions at once.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUA 5: The Yasir family narration -->
+      <div class="dua-card fade-up" style="border-top-color:var(--primary);">
+        <span class="dua-theme" style="color:var(--primary);background:rgba(0,53,39,0.07);border-color:rgba(0,53,39,0.15);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Specifically Narrated — This Era
+        </span>
+        <h2 class="dua-title">The Prophet's ﷺ Words to the Family of Yasir</h2>
+        <div class="dua-arabic-wrapper" style="background:linear-gradient(135deg,#001f16 0%,var(--primary) 100%);">
+          <span class="arabic-text-inverted">صَبْرًا آلَ يَاسِرٍ، فَإِنَّ مَوْعِدَكُمُ الْجَنَّةُ</span>
+        </div>
+        <p class="dua-transliteration">Ṣabran āla Yāsir, fa inna maw'idakumu al-jannah</p>
+        <div class="dua-translation">
+          <p>"Patience, O family of Yasir — your appointed place is Paradise."</p>
+        </div>
+        <div class="dua-meta">
+          <div class="dua-source">
+            <span class="dua-source-label">Source</span>
+            <span class="dua-source-text">Mustadrak al-Hakim (no. 5652), narrated from Ibn Abbas (RA) and Ammar ibn Yasir (RA). Also referenced in al-Haythami's Majma' al-Zawa'id. Authenticated by al-Hakim.</span>
+          </div>
+          <div class="dua-connection">
+            <span class="dua-connection-label">Specifically From This Era</span>
+            <p>Unlike the other du'as on this page, this narration is explicitly tied to 610–613 CE in the sources. The Prophet ﷺ passed by Yasir and Sumayyah as they were being tortured in the midday heat of Makkah — unable to physically intervene due to the tribal honour code — and offered them these words of certainty. Sumayyah died shortly after, becoming Islam's first martyr. <a href="persecution/sumayyah-yasir.html" style="color:var(--tertiary);font-weight:700;">Read their full story →</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DUA 6: Tawakkul / trust in Allah -->
+      <div class="dua-card fade-up">
+        <span class="dua-theme">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Trust in Allah (Tawakkul)
+        </span>
+        <h2 class="dua-title">Hasbunallah wa Ni'ma al-Wakil</h2>
+        <div class="dua-arabic-wrapper">
+          <span class="arabic-text-inverted">حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ</span>
+        </div>
+        <p class="dua-transliteration">Ḥasbunallāhu wa ni'ma al-wakīl</p>
+        <div class="dua-translation">
+          <p>"Allah is sufficient for us, and He is the best Disposer of affairs."</p>
+        </div>
+        <div class="dua-meta">
+          <div class="dua-source">
+            <span class="dua-source-label">Source</span>
+            <span class="dua-source-text">Sahih al-Bukhari, Hadith 4563. These words are from the Qur'an (3:173), and are also the words the Prophet Ibrahim (AS) said when cast into the fire — a narration cited in Bukhari connecting the phrase to moments of extreme trust in Allah.</span>
+          </div>
+          <div class="dua-connection">
+            <span class="dua-connection-label">Connection to This Era</span>
+            <p>This phrase from Surah Al 'Imran was spoken by the early believers when told that a great army had gathered against them — yet it increased their faith. The first Muslim community of Makkah faced a comparable moment every day: outnumbered, unprotected, and dependent entirely on Allah's protection. This is the declaration they lived by.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="callout fade-up">
+        <h3 class="headline-md">From Words to Lives</h3>
+        <p class="body-md">These supplications only make sense when read alongside the people who needed them most. The pioneers and the persecuted of the secret era are their living commentary.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;">
+          <a href="persecution.html" class="btn btn-primary">Trials &amp; Sacrifice →</a>
+          <a href="lessons.html" class="btn btn-outline" style="color:var(--tertiary-fixed);border-color:var(--tertiary-fixed);">Wisdom of the Silent Years →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-pattern"></div>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name">Al-Arqam</span>
+      <span class="brand-tagline">الأرقم · دار العلم</span>
+      <p>An educational archive of the secret Da'wah era (610–613 CE) — the silent years before Islam's public call at Mount Safa.</p>
+      <div class="footer-quote">
+        <p>"Invite to the way of your Lord with wisdom and fair preaching."</p>
+        <cite>— Qur'an 16:125</cite>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <a href="timeline.html">Timeline</a>
+      <a href="pioneers.html">Pioneers of Faith</a>
+      <a href="persecution.html">Trials &amp; Sacrifice</a>
+      <a href="dar-al-arqam.html">Dar al-Arqam</a>
+    </div>
+    <div class="footer-col">
+      <h5>Learn</h5>
+      <a href="lessons.html">Wisdom &amp; Lessons</a>
+      <a href="map.html">Seerah Map</a>
+      <a href="duas.html">Du'as</a>
+      <a href="sources.html">Historical Sources</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 610–613 CE · The Secret Dawah Archive · Refined with Adab</span>
+    <span>Derived from Sahih Bukhari, Ibn Hisham &amp; classical Seerah sources</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
