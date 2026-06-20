@@ -211,7 +211,10 @@ h1,h2,h3,h4,.font-display{font-family:var(--font-display);color:var(--primary);f
   }
   
   .nav-links{
-    position:fixed;top:var(--nav-height);left:0;bottom:0;width:280px;
+   /* position:fixed;top:var(--nav-height);left:0;bottom:0;width:280px;*/
+   position:fixed;top:calc(var(--nav-height) + 10px);left:16px;right:16px;
+  border-radius:var(--r-lg);
+  max-height:0;opacity:0;transform:translateY(-8px);  /* compact dropdown card */
     background:var(--surface-container-lowest);
     flex-direction:column;align-items:stretch;
     padding:8px 0;gap:0;
@@ -221,7 +224,9 @@ h1,h2,h3,h4,.font-display{font-family:var(--font-display);color:var(--primary);f
     z-index:99;
   }
   .nav-links.open{
-    transform:translateX(0);
+    /*transform:translateX(0);*/
+    max-height:calc(100vh - var(--nav-height) - 40px);
+    opacity:1;transform:translateY(0);
   }
   .nav-links a{
     width:100%;padding:14px 20px;font-size:14.5px;font-weight:500;
