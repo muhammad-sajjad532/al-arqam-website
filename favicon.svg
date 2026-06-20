@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Al-Arqam">
+  <rect width="32" height="32" rx="4" fill="#003527"/>
+  <rect x="7" y="7" width="18" height="18" rx="1" fill="none" stroke="#cca72f" stroke-width="1.5" transform="rotate(45 16 16)"/>
+  <text x="16" y="21" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="700" fill="#ffe088">9</text>
+</svg>
