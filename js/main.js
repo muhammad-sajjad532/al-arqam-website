@@ -6,15 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- mobile nav toggle ---- */
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
+  const body = document.body;
   
   const closeMenu = () => {
     links.classList.remove('open');
+    body.classList.remove('nav-open');
     toggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   };
   
   const openMenu = () => {
     links.classList.add('open');
+    body.classList.add('nav-open');
     toggle.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
   };
