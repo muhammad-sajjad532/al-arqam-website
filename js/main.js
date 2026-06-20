@@ -6,17 +6,47 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---- mobile nav toggle ---- */
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
+  
+  const closeMenu = () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+  
+  const openMenu = () => {
+    links.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  };
+  
   if (toggle && links) {
     toggle.addEventListener('click', () => {
-      const isOpen = links.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (links.classList.contains('open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
+    
+    // Close menu when clicking on a link
     links.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        links.classList.remove('open');
-        document.body.style.overflow = '';
-      });
+      a.addEventListener('click', closeMenu);
+    });
+    
+    // Close menu when clicking the backdrop overlay
+    document.addEventListener('click', (e) => {
+      if (links.classList.contains('open') && 
+          !links.contains(e.target) && 
+          !toggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
+    
+    // Close menu with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('open')) {
+        closeMenu();
+      }
     });
   }
 
