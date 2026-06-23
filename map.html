@@ -213,7 +213,7 @@
         </div>
       </div>
 
-      <div class="map-wrapper fade-up">
+      <div class="map-wrapper">
         <div id="map" style="height:70vh;min-height:420px;" role="application" aria-label="Interactive map of sacred Makkah locations from the secret Da'wah era"></div>
         <div class="note-box">
           <strong>Note on Mount Safa:</strong> The public call at Safa in 613 CE marks the <em>end</em> of the secret era this archive documents — it is shown here as a contextual reference point, not as part of the secret Da'wah itself.
@@ -406,7 +406,8 @@
     });
 
     // Re-render tiles after layout settles (fixes blank map on first load)
-    setTimeout(function () { map.invalidateSize(); }, 200);
+    setTimeout(function () { map.invalidateSize(); }, 300);
+    setTimeout(function () { map.invalidateSize(); }, 800);
 
     // Enable scroll wheel zoom on click
     map.on('click', function () { map.scrollWheelZoom.enable(); });
