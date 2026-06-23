@@ -214,7 +214,7 @@
       </div>
 
       <div class="map-wrapper fade-up">
-        <div id="map" role="application" aria-label="Interactive map of sacred Makkah locations from the secret Da'wah era"></div>
+        <div id="map" style="height:70vh;min-height:420px;" role="application" aria-label="Interactive map of sacred Makkah locations from the secret Da'wah era"></div>
         <div class="note-box">
           <strong>Note on Mount Safa:</strong> The public call at Safa in 613 CE marks the <em>end</em> of the secret era this archive documents — it is shown here as a contextual reference point, not as part of the secret Da'wah itself.
         </div>
@@ -394,20 +394,22 @@
       + '</div>';
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function initMap() {
     var mapEl = document.getElementById('map');
-    if (!mapEl) return;
+    if (!mapEl || mapEl._leaflet_id) return; // already initialised
 
-    var map = L.map('map', {
+    var map = L.map(mapEl, {
       center: [21.437, 39.838],
       zoom: 13,
       scrollWheelZoom: false,
       zoomControl: true
     });
 
-    // Enable scroll wheel zoom on click/focus
+    // Re-render tiles after layout settles (fixes blank map on first load)
+    setTimeout(function () { map.invalidateSize(); }, 200);
+
+    // Enable scroll wheel zoom on click
     map.on('click', function () { map.scrollWheelZoom.enable(); });
-    map.on('blur', function () { map.scrollWheelZoom.disable(); });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -419,7 +421,14 @@
       marker.addTo(map);
       marker.bindPopup(makePopup(loc), { maxWidth: 300, className: 'arqam-popup' });
     });
-  });
+  }
+
+  // Run after everything (including main.js) has loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMap);
+  } else {
+    initMap();
+  }
 }());
 </script>
 </body>
